@@ -145,6 +145,7 @@ http://localhost:5173
 - [x] Unit Tests
 - [x] Snyk to scan the dependencies
 - [x] Company Dashboard with Next.js
+- [ ] Google Authentication in Company Dashboard
 - [ ] UI Componentization
 - [ ] Permission-Based Access Control (PBAC) 
 - [ ] Company Dashboard
