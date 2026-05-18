@@ -20,8 +20,6 @@ Learn more: 👉 [Visit Compre Flow](https://institucional-compre-flow.vercel.ap
 
 Compre Mais is a Pricing and Salesforce application focused on scalability, organization, and clean architecture.
 
-
-
 The project aims to simulate a modern Pricing and Salesforce experience with:
 
 - Scalability
@@ -30,11 +28,6 @@ The project aims to simulate a modern Pricing and Salesforce experience with:
 - GraphQL integration
 - Modular backend architecture
 - Modern frontend
-- Unit Test
-- Integration tests
-- End-to-end (E2E) tests
-- Swagger Documentation API
-
 
 This repository contains both frontend( Web | Mobile) and backend applications.
 
@@ -169,21 +162,16 @@ http://localhost:5173
 
 This project was created to improve skills in:
 
+- Node.js Ecossystem
 - Fullstack development
 - Backend architecture with NestJS
 - API design
 - Scalable project organization
-- Modern frontend development with React.js
-
----
-
-# 📷 Future Improvements
-
-- Docker support
+- Modern frontend development with React.js and Next.js
 - CI/CD pipeline
-- Unit and integration tests
-- AWS deployment
-- Payment gateway integration
+- Unit, e2e and integration tests
+- Websockets
+---
 
 # 📄 License
 
