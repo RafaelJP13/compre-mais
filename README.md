@@ -37,24 +37,18 @@ This repository contains both frontend( Web | Mobile) and backend applications.
 
 ## Frontend
 
-- React
+- React.js
+- Next.js
 - TypeScript
 - Tailwind CSS
-- Next.js
-- 
+
 ## Backend
 
 - NestJS
 - TypeScript
 - Prisma
-
-## Tools & Concepts
-
+- Rest API's
 - GraphQL
-- ESLint
-- Prettier
-- Modular Architecture
-- Git & GitHub
 
 ---
 
