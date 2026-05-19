@@ -23,5 +23,6 @@ data/
 # Environment
 .env
 .env.*
+!.env.example
 
 /generated/prisma
