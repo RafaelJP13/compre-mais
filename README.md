@@ -78,19 +78,26 @@ git clone https://github.com/RafaelJP13/compre-flow.git
 
 # 🔧 Setup
 
-The backend requires a `.env` and `.env` file in the root directory. ( REFACTOR ) 
+The backend requires a `.env`
+
+```bash
+POSTGRES_URL="postgresql://user:password@postgres:5432/compre-flow"
+```
+&&
+
+The root requires a `.env`
 
 ```bash
 JWT_SECRET="CHANGE_THIS_TO_A_LONG_RANDOM_SECRET"
 JWT_REFRESH_SECRET="CHANGE_THIS_TO_ANOTHER_LONG_RANDOM_SECRET"
+
 PORT=3000
 NODE_ENV=development
 
-POSTGRES_USER=
-POSTGRES_PASSWORD=
-POSTGRES_DB=
-POSTGRES_URL="postgresql://postgres:user@password:5432/compre-flow"
-
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=compre-flow
+POSTGRES_URL="postgresql://user:password@postgres:5432/compre-flow"
 ```
 
 After that runs the command
