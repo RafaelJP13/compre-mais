@@ -26,6 +26,8 @@ export class SeedService {
             return;
         }
 
+        const hashedPassword = await bcrypt.hash('123456', 10);
+
         await this.prisma.company.createMany({
             data: [
                 {
@@ -41,6 +43,7 @@ export class SeedService {
                     state: "SP",
                     city: "São Paulo",
                     address: "Av. Paulista, 1000 - São Paulo/SP - 01310-100",
+                    password: hashedPassword,
                 },
                 {
                     adminName: "Coca-Cola Admin",
@@ -55,6 +58,7 @@ export class SeedService {
                     state: "RJ",
                     city: "Rio de Janeiro",
                     address: "Av. Presidente Vargas, 500 - Rio de Janeiro/RJ - 20000-000",
+                    password: hashedPassword,
                 },
                 {
                     adminName: "João Pedro",
@@ -69,6 +73,7 @@ export class SeedService {
                     state: "RJ",
                     city: "Rio de Janeiro",
                     address: "Rua Central, 120 - Rio de Janeiro/RJ - 20000-000",
+                    password: hashedPassword,
                 },
                 {
                     adminName: "Ana Clara",
@@ -83,6 +88,7 @@ export class SeedService {
                     state: "MG",
                     city: "Belo Horizonte",
                     address: "Av. Afonso Pena, 800 - Belo Horizonte/MG - 30100-000",
+                    password: hashedPassword,
                 },
                 {
                     adminName: "Lucas Martins",
@@ -97,6 +103,7 @@ export class SeedService {
                     state: "PR",
                     city: "Curitiba",
                     address: "Rua XV de Novembro, 300 - Curitiba/PR - 80000-000",
+                    password: hashedPassword,
                 },
                 {
                     adminName: "Felipe Gomes",
@@ -111,6 +118,7 @@ export class SeedService {
                     state: "RS",
                     city: "Porto Alegre",
                     address: "Av. Borges de Medeiros, 700 - Porto Alegre/RS - 90000-000",
+                    password: hashedPassword,
                 },
                 {
                     adminName: "Juliana Rocha",
@@ -125,6 +133,7 @@ export class SeedService {
                     state: "CE",
                     city: "Fortaleza",
                     address: "Av. Beira Mar, 900 - Fortaleza/CE - 60000-000",
+                    password: hashedPassword,
                 },
                 {
                     adminName: "Gabriel Almeida",
@@ -139,6 +148,7 @@ export class SeedService {
                     state: "BA",
                     city: "Salvador",
                     address: "Rua das Flores, 250 - Salvador/BA - 40000-000",
+                    password: hashedPassword,
                 },
                 {
                     adminName: "Camila Freitas",
@@ -153,6 +163,7 @@ export class SeedService {
                     state: "PE",
                     city: "Recife",
                     address: "Av. Boa Viagem, 1200 - Recife/PE - 50000-000",
+                    password: hashedPassword,
                 },
                 {
                     adminName: "Thiago Silva",
@@ -167,6 +178,7 @@ export class SeedService {
                     state: "GO",
                     city: "Goiânia",
                     address: "Av. Goiás, 400 - Goiânia/GO - 74000-000",
+                    password: hashedPassword,
                 },
                 {
                     adminName: "Bruna Castro",
@@ -181,6 +193,7 @@ export class SeedService {
                     state: "ES",
                     city: "Vitória",
                     address: "Av. Jerônimo Monteiro, 600 - Vitória/ES - 29000-000",
+                    password: hashedPassword,
                 },
                 {
                     adminName: "Matheus Ribeiro",
@@ -195,6 +208,7 @@ export class SeedService {
                     state: "SC",
                     city: "Florianópolis",
                     address: "Rua Bocaiúva, 150 - Florianópolis/SC - 88000-000",
+                    password: hashedPassword,
                 },
                 {
                     adminName: "Larissa Mendes",
@@ -209,6 +223,7 @@ export class SeedService {
                     state: "MT",
                     city: "Cuiabá",
                     address: "Av. Getúlio Vargas, 500 - Cuiabá/MT - 78000-000",
+                    password: hashedPassword,
                 },
                 {
                     adminName: "Pedro Henrique",
@@ -223,6 +238,7 @@ export class SeedService {
                     state: "AC",
                     city: "Rio Branco",
                     address: "Rua Amazonas, 90 - Rio Branco/AC - 69900-000",
+                    password: hashedPassword,
                 },
                 {
                     adminName: "Vanessa Lima",
@@ -237,79 +253,11 @@ export class SeedService {
                     state: "PA",
                     city: "Belém",
                     address: "Av. Nazaré, 300 - Belém/PA - 66000-000",
-                },
-                {
-                    adminName: "Ricardo Moura",
-                    adminEmail: "ricardo@varejocontrol.com",
-                    representante: "Sandra Gomes",
-                    fantasyName: "VarejoControl",
-                    legalName: "VarejoControl Sistemas LTDA",
-                    cnpj: "10000000000016",
-                    cnpj_status: "VALID",
-                    phone: "92999990016",
-                    cep: "69000-000",
-                    state: "AM",
-                    city: "Manaus",
-                    address: "Av. Eduardo Ribeiro, 200 - Manaus/AM - 69000-000",
-                },
-                {
-                    adminName: "Patricia Silva",
-                    adminEmail: "patricia@salestrack.com",
-                    representante: "Fabio Martins",
-                    fantasyName: "SalesTrack",
-                    legalName: "SalesTrack Tecnologia LTDA",
-                    cnpj: "10000000000017",
-                    cnpj_status: "INVALID",
-                    phone: "83999990017",
-                    cep: "58000-000",
-                    state: "PB",
-                    city: "João Pessoa",
-                    address: "Av. Epitácio Pessoa, 700 - João Pessoa/PB - 58000-000",
-                },
-                {
-                    adminName: "Eduardo Costa",
-                    adminEmail: "eduardo@marketvision.com",
-                    representante: "Bianca Rocha",
-                    fantasyName: "MarketVision",
-                    legalName: "MarketVision LTDA",
-                    cnpj: "10000000000018",
-                    cnpj_status: "VALID",
-                    phone: "86999990018",
-                    cep: "64000-000",
-                    state: "PI",
-                    city: "Teresina",
-                    address: "Av. Frei Serafim, 450 - Teresina/PI - 64000-000",
-                },
-                {
-                    adminName: "Fernanda Alves",
-                    adminEmail: "fernanda@retailforce.com",
-                    representante: "Igor Lima",
-                    fantasyName: "RetailForce",
-                    legalName: "RetailForce Comercial LTDA",
-                    cnpj: "10000000000019",
-                    cnpj_status: "VALID",
-                    phone: "95999990019",
-                    cep: "69300-000",
-                    state: "RR",
-                    city: "Boa Vista",
-                    address: "Av. Ville Roy, 100 - Boa Vista/RR - 69300-000",
-                },
-                {
-                    adminName: "Diego Santos",
-                    adminEmail: "diego@shelfpro.com",
-                    representante: "Tatiane Costa",
-                    fantasyName: "ShelfPro",
-                    legalName: "ShelfPro Tecnologia LTDA",
-                    cnpj: "10000000000020",
-                    cnpj_status: "INVALID",
-                    phone: "96999990020",
-                    cep: "68900-000",
-                    state: "AP",
-                    city: "Macapá",
-                    address: "Av. FAB, 300 - Macapá/AP - 68900-000",
+                    password: hashedPassword,
                 },
             ],
         });
+
         this.logger.log('🏢 Companies seeded successfully');
     }
 

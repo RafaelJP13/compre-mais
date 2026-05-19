@@ -10,15 +10,24 @@ import cookieParser from "cookie-parser";
   try {
 
     console.log('🚀 Starting CompreFlow...\n');
-
     // BACKEND
     const app = await NestFactory.create(AppModule);
 
     app.use(cookieParser());
 
     app.enableCors({
-      origin: 'http://localhost:5173',
+
+      origin: [
+
+        "http://localhost:3000",
+
+        "http://localhost:3001",
+
+        "http://localhost:5173",
+      ],
       methods: 'GET,POST,PUT,DELETE,OPTIONS',
+
+
       credentials: true,
     });
 

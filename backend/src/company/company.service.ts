@@ -6,49 +6,156 @@ import { PrismaService } from "../../prisma/prisma.service";
 
 import { CreateCompanyDTO } from "./dto/create-company.dto";
 import { UpdateCompanyDTO } from "./dto/update-company.dto";
+import { JwtService } from "@nestjs/jwt";
+import * as bcrypt from "bcrypt";
 
 @Injectable()
 export class CompanyService {
     constructor(
-        private prisma: PrismaService
+        private prisma: PrismaService,
+        private jwtService: JwtService,
+
     ) { }
 
     async findAll() {
         return this.prisma.company.findMany();
     }
 
-    async create(data: CreateCompanyDTO) {
-        return this.prisma.company.create({
-            data: {
-                adminName: data.adminName,
-                adminEmail: data.adminEmail,
+    async create(
+        data: CreateCompanyDTO
+    ) {
 
-                representante:
-                    data.representante,
+        const companyExists =
+            await this.prisma.company.findFirst({
+                where: {
+                    OR: [
+                        {
+                            cnpj: data.cnpj,
+                        },
+                        {
+                            adminEmail:
+                                data.adminEmail,
+                        },
+                    ],
+                },
+            });
+
+        if (companyExists) {
+            throw new ConflictException(
+                "Empresa já cadastrada"
+            );
+        }
+
+        /*
+        =========================
+        HASH PASSWORD
+        =========================
+        */
+
+        const hashedPassword =
+            await bcrypt.hash(
+                data.password,
+                10
+            );
+
+        /*
+        =========================
+        CREATE COMPANY
+        =========================
+        */
+
+        const company =
+            await this.prisma.company.create({
+                data: {
+
+                    adminName:
+                        data.adminName,
+
+                    adminEmail:
+                        data.adminEmail,
+
+                    password:
+                        hashedPassword,
+
+                    representante:
+                        data.representante,
+
+                    fantasyName:
+                        data.fantasyName,
+
+                    legalName:
+                        data.legalName,
+
+                    cnpj:
+                        data.cnpj,
+
+                    cnpj_status:
+                        data.cnpj_status,
+
+                    phone:
+                        data.phone,
+
+                    cep:
+                        data.cep,
+
+                    state:
+                        data.state,
+
+                    city:
+                        data.city,
+
+                    address:
+                        data.address,
+
+                    dpopPublicKey:
+                        data.publicKey,
+                },
+            });
+
+        /*
+        =========================
+        JWT + DPoP
+        =========================
+        */
+
+        const access_token =
+            await this.jwtService.signAsync(
+                {
+                    sub: company.id,
+
+                    role: "COMPANY_ADMIN",
+
+                    cnf: {
+                        jwk: data.publicKey,
+                    },
+                },
+                {
+                    expiresIn: "15m",
+                }
+            );
+
+        /*
+        =========================
+        RESPONSE
+        =========================
+        */
+
+        return {
+
+            company: {
+                id: company.id,
 
                 fantasyName:
-                    data.fantasyName,
+                    company.fantasyName,
 
-                legalName:
-                    data.legalName,
-
-                cnpj: data.cnpj,
-
-                cnpj_status:
-                    data.cnpj_status,
-
-                phone: data.phone,
-
-                cep: data.cep,
-
-                state: data.state,
-
-                city: data.city,
-
-                address: data.address,
+                adminEmail:
+                    company.adminEmail,
             },
-        });
+
+            access_token,
+        };
     }
+
 
     async findOne(id: string) {
         const company = await this.prisma.company.findUnique({

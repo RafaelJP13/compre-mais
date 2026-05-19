@@ -42,6 +42,7 @@ export default function CreateCompanyPage() {
     const [formData, setFormData] = useState({
         adminName: "",
         adminEmail: "",
+        password: "",
 
         representante: "",
 
@@ -149,65 +150,251 @@ export default function CreateCompanyPage() {
     const handleSubmit = async (
         e: React.FormEvent
     ) => {
+
         e.preventDefault();
 
         try {
+
             setLoading(true);
 
-            const response = await fetchWithRefresh(
-                "http://localhost:3000/companies",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type":
-                            "application/json",
+            /*
+            =====================================
+            DPoP KEY GENERATION
+            =====================================
+            */
+
+            const keyPair =
+                await crypto.subtle.generateKey(
+                    {
+                        name: "ECDSA",
+                        namedCurve: "P-256",
                     },
-                    body: JSON.stringify(formData),
-                }
+                    true,
+                    ["sign", "verify"]
+                );
+
+            /*
+            =====================================
+            EXPORT PUBLIC KEY
+            =====================================
+            */
+
+            const exportedPublicKey =
+                await crypto.subtle.exportKey(
+                    "jwk",
+                    keyPair.publicKey
+                );
+
+            console.log(
+                "DPOP PUBLIC KEY = ",
+                exportedPublicKey
             );
 
+            /*
+            =====================================
+            CREATE COMPANY
+            =====================================
+            */
+
+            const response =
+                await fetchWithRefresh(
+                    "http://localhost:3000/companies",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json",
+                        },
+
+                        body: JSON.stringify({
+
+                            adminName:
+                                formData.adminName,
+
+                            adminEmail:
+                                formData.adminEmail,
+
+                            password:
+                                formData.password,
+
+                            representante:
+                                formData.representante,
+
+                            fantasyName:
+                                formData.fantasyName,
+
+                            legalName:
+                                formData.legalName,
+
+                            cnpj:
+                                formData.cnpj,
+
+                            cnpj_status:
+                                formData.cnpj_status,
+
+                            phone:
+                                formData.phone,
+
+                            cep:
+                                formData.cep,
+
+                            state:
+                                formData.state,
+
+                            city:
+                                formData.city,
+
+                            address:
+                                formData.address,
+
+                            /*
+                            =====================================
+                            DPoP KEY
+                            =====================================
+                            */
+
+                            publicKey:
+                                exportedPublicKey,
+                        }),
+                    }
+                );
+
             if (!response.ok) {
+
+                const errorData =
+                    await response.json();
+
                 throw new Error(
+                    errorData.message ||
                     "Failed to create company"
                 );
             }
 
-            await response.json();
+            /*
+            =====================================
+            RESPONSE
+            =====================================
+            */
 
-            toast.success("Empresa criada com sucesso!");
+            const data =
+                await response.json();
 
-            setTimeout(() => {
-                navigate("/companies");
-            }, 1200);
+            console.log(data);
+
+            /*
+            =====================================
+            SAVE JWT
+            =====================================
+            */
+
+            localStorage.setItem(
+                "company_token",
+                data.access_token
+            );
+
+            /*
+            =====================================
+            EXPORT PRIVATE KEY
+            =====================================
+            */
+
+            const exportedPrivateKey =
+                await crypto.subtle.exportKey(
+                    "jwk",
+                    keyPair.privateKey
+                );
+
+            /*
+            =====================================
+            SAVE DPoP KEYS
+            =====================================
+            */
+
+            localStorage.setItem(
+                "company_private_key",
+                JSON.stringify(
+                    exportedPrivateKey
+                )
+            );
+
+            localStorage.setItem(
+                "company_public_key",
+                JSON.stringify(
+                    exportedPublicKey
+                )
+            );
+
+            /*
+            =====================================
+            SUCCESS
+            =====================================
+            */
+
+            toast.success(
+                "Empresa criada com sucesso!"
+            );
+
+            /*
+            =====================================
+            RESET FORM
+            =====================================
+            */
 
             setFormData({
+
                 adminName: "",
+
                 adminEmail: "",
+
+                password: "",
 
                 representante: "",
 
                 fantasyName: "",
+
                 legalName: "",
 
                 cnpj: "",
+
                 cnpj_status: "",
 
                 phone: "",
 
                 cep: "",
+
                 state: "",
+
                 city: "",
 
                 address: "",
             });
 
             setCnpjStatus("idle");
-        } catch (error) {
+
+            /*
+            =====================================
+            REDIRECT
+            =====================================
+            */
+
+            setTimeout(() => {
+
+                navigate("/companies");
+
+            }, 1200);
+
+        } catch (error: any) {
+
             console.error(error);
 
-            toast.error("Erro ao criar empresa!");
+            toast.error(
+                error.message ||
+                "Erro ao criar empresa!"
+            );
 
         } finally {
+
             setLoading(false);
         }
     };
@@ -360,6 +547,51 @@ export default function CreateCompanyPage() {
                                             handleChange
                                         }
                                         placeholder="admin@empresa.com"
+                                        className="
+                                            w-full
+                                            pl-12
+                                            pr-4
+                                            py-3
+                                            rounded-2xl
+                                            border border-gray-200
+                                            outline-none
+                                            focus:ring-4
+                                            focus:ring-[#ffac2e]/20
+                                            focus:border-[#ffac2e]
+                                        "
+                                    />
+                                </div>
+                            </div>
+
+                            {/* ADMIN SENHA */}
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Senha do
+                                    Administrador
+                                </label>
+
+                                <div className="relative">
+                                    <Mail
+                                        size={18}
+                                        className="
+                                            absolute
+                                            left-4
+                                            top-1/2
+                                            -translate-y-1/2
+                                            text-gray-400
+                                        "
+                                    />
+
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        value={
+                                            formData.password
+                                        }
+                                        onChange={
+                                            handleChange
+                                        }
+                                        placeholder="**************"
                                         className="
                                             w-full
                                             pl-12

@@ -12,16 +12,19 @@ model Company {
 
   adminName     String
   adminEmail    String
+  password      String
   representante String
   fantasyName   String
   legalName     String
   cnpj          String @unique
-  cnpj_status   String // "VALID", "INVALID"
+  cnpj_status   String
   phone         String
   cep           String
   state         String
   city          String
   address       String
+
+  dpopPublicKey Json?
 
   users User[]
 
