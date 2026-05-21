@@ -149,9 +149,8 @@ http://localhost:5173
 - [x] Unit Tests
 - [x] Snyk to scan the dependencies
 - [x] Company Dashboard with Next.js
-- [ ] Demonstrating Proof of Possession (DPoP) in Company Dashboard
+- [ ] Permission-Based Access Control (PBAC)
 - [ ] UI Componentization
-- [ ] Permission-Based Access Control (PBAC) 
 - [ ] Company Dashboard
 - [ ] GraphQL for dashboards, aggregations, complex frontend querying
 - [ ] Company crud
